@@ -7,7 +7,7 @@ with open("README.md", "r", encoding="utf-8") as f:
 __version__ = "0.0.0"
 
 REPO_NAME = "chest-cancer-detection"
-AUTHOR_USER_NAME = "Amritanshu Jha"
+AUTHOR_USER_NAME = "AmritanshuAJ"
 SRC_REPO = "cancerDetection"
 AUTHOR_EMAIL = "amritanshu.10819011622@ipu.ac.in"
 

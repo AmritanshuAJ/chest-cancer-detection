@@ -1,0 +1,8 @@
+artifacts_root: artifacts
+
+
+data_ingestion:
+  root_dir: artifacts/data_ingestion
+  source_URL: https://drive.google.com/file/d/1VKbzndjQwMZ35q1JM-FngfDC-tjKa6w_/view?usp=drive_link
+  local_data_file: artifacts/data_ingestion/Chest_Dataset.zip
+  unzip_dir: artifacts/data_ingestion
