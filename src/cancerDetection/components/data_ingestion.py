@@ -4,6 +4,7 @@ import gdown
 from cancerDetection import logger
 from cancerDetection.utils.common import get_size
 from cancerDetection.entity.config_entity import DataIngestionConfig
+from cancerDetection.components.duplicate_image_cleaner import DuplicateImageCleaner
 
 
 class DataIngestion:
@@ -38,7 +39,22 @@ class DataIngestion:
         Extracts the zip file into the data directory
         Function returns None
         """
-        unzip_path = self.config.unzip_dir
-        os.makedirs(unzip_path, exist_ok=True)
-        with zipfile.ZipFile(self.config.local_data_file, 'r') as zip_ref:
-            zip_ref.extractall(unzip_path)
+        try:
+            unzip_path = self.config.unzip_dir
+            os.makedirs(unzip_path, exist_ok=True)
+            with zipfile.ZipFile(self.config.local_data_file, 'r') as zip_ref:
+                zip_ref.extractall(unzip_path)
+            logger.info(f"Extracted zip file into {unzip_path}")
+
+            from glob import glob
+            logger.info(len(glob(os.path.join(self.config.unzip_dir, "**", "*.*"), recursive=True)))
+
+
+            # Call duplicate cleaner here after extraction
+            cleaner = DuplicateImageCleaner(directory=unzip_path)
+            cleaner.find_and_remove_duplicates()
+
+
+        except Exception as e:
+            logger.error("Failed to extract and clean duplicates")
+            raise e

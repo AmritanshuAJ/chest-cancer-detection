@@ -1,8 +1,31 @@
 artifacts_root: artifacts
 
-
 data_ingestion:
   root_dir: artifacts/data_ingestion
-  source_URL: https://drive.google.com/file/d/1VKbzndjQwMZ35q1JM-FngfDC-tjKa6w_/view?usp=drive_link
-  local_data_file: artifacts/data_ingestion/Chest_Dataset.zip
+  source_URL: https://drive.google.com/file/d/1gLjyCoZlzVJkVOQROr0gKBZBqZmJV7t8/view?usp=sharing
+  local_data_file: artifacts/data_ingestion/data.zip
   unzip_dir: artifacts/data_ingestion
+
+
+data_split:
+  raw_data_dir: artifacts/data_ingestion
+  split_data_dir: artifacts/data_split  # Where split data will be saved
+  train_split: 0.7
+  val_split: 0.2
+  test_split: 0.1
+
+
+prepare_base_model:
+  root_dir: artifacts/prepare_base_model
+  base_model_path: artifacts/prepare_base_model/base_model.h5
+  updated_base_model_path: artifacts/prepare_base_model/base_model_updated.h5
+
+
+training:
+  root_dir: artifacts/training
+  trained_model_path: artifacts/training/model.h5
+
+
+fine_tuning:
+  root_dir: artifacts/fine_tuning
+  fine_tuned_model_path: artifacts/fine_tuning/fine_tuned_model.h5
