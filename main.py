@@ -3,6 +3,7 @@ from cancerDetection.pipeline.stage_01_data_ingestion import DataIngestionTraini
 from cancerDetection.pipeline.stage_02_data_split import DataSplitPipeline
 from cancerDetection.pipeline.stage_03_prepare_base_model import PrepareBaseModelTrainingPipeline
 from cancerDetection.pipeline.stage_04_model_trainer import ModelTrainingPipeline
+from cancerDetection.pipeline.stage_05_model_evaluation import ModelEvaluationPipeline
 
 
 STAGE_NAME = "Data Ingestion Stage"
@@ -44,6 +45,18 @@ try:
    model_trainer = ModelTrainingPipeline()
    model_trainer.main()
    logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
+except Exception as e:
+        logger.exception(e)
+        raise e
+
+STAGE_NAME = "Evaluation stage"
+try:
+   logger.info(f"*******************")
+   logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<")
+   model_evalution = ModelEvaluationPipeline()
+   model_evalution.main()
+   logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
+
 except Exception as e:
         logger.exception(e)
         raise e

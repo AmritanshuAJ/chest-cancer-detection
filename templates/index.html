@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RadiologyAI - Cancer Detection System</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="app-container">
+        <header class="header">
+            <div class="logo-section">
+                <div class="logo-icon">
+                    <i class="fas fa-microscope"></i>
+                </div>
+                <h1 class="app-title">RadiologyAI</h1>
+            </div>
+            <p class="app-subtitle">Advanced AI-powered chest CT analysis for early cancer detection and diagnosis support</p>
+        </header>
+
+        <form id="analysisForm" method="POST" enctype="multipart/form-data">
+            <div class="main-interface">
+                <!-- Upload Panel -->
+                <div class="panel fade-in">
+                    <div class="panel-header">
+                        <h2 class="panel-title">
+                            <i class="fas fa-upload"></i>
+                            Image Upload
+                        </h2>
+                        <p class="panel-description">Upload chest CT scan for AI analysis</p>
+                    </div>
+                    <div class="panel-content">
+                        <div class="upload-zone" id="uploadZone">
+                            <div class="upload-icon">
+                                <i class="fas fa-file-medical-alt"></i>
+                            </div>
+                            <div class="upload-primary-text">Drop CT scan here</div>
+                            <div class="upload-secondary-text">Supports DICOM, JPG, PNG formats</div>
+                            <button type="button" class="upload-button" onclick="document.getElementById('fileInput').click()">
+                                Select File
+                            </button>
+                        </div>
+                        
+                        <input type="file" id="fileInput" name="file" class="file-input" 
+                               accept=".jpg,.jpeg,.png,.dicom,.dcm" required>
+                        
+                        <div id="fileDetails" class="file-details">
+                            <h4>File Information</h4>
+                            <div class="file-meta">
+                                <div>Name: <span id="fileName"></span></div>
+                                <div>Size: <span id="fileSize"></span></div>
+                                <div>Type: <span id="fileType"></span></div>
+                                <div>Status: <span id="fileStatus">Ready</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Preview Panel -->
+                <div class="panel fade-in">
+                    <div class="panel-header">
+                        <h2 class="panel-title">
+                            <i class="fas fa-image"></i>
+                            Image Preview
+                        </h2>
+                        <p class="panel-description">Visual confirmation of uploaded scan</p>
+                    </div>
+                    <div class="panel-content">
+                        <div class="preview-container" id="previewContainer">
+                            {% if filename %}
+                                <img src="{{ url_for('display_image', filename=filename) }}" 
+                                     alt="CT Scan" class="preview-image">
+                                <div class="status-indicator"></div>
+                            {% else %}
+                                <div class="preview-placeholder">
+                                    <i class="fas fa-image"></i>
+                                    <p>Preview will appear here</p>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% if prediction %}
+            <div class="results-panel fade-in">
+                <div class="results-header">
+                    <div class="results-title">Analysis Complete</div>
+                    <div class="results-subtitle">AI-powered diagnostic assessment</div>
+                </div>
+                <div class="results-grid">
+                    <div class="result-item">
+                        <div class="result-label">Diagnosis</div>
+                        <div class="result-value {% if prediction.lower() == 'normal' %}normal{% else %}cancer{% endif %}">
+                            {{ prediction.replace('_', ' ').title() }}
+                        </div>
+                        <div class="result-description">AI Classification</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Confidence</div>
+                        <div class="result-confidence">{{ confidence_percentage if confidence_percentage else confidence }}</div>
+                        <div class="result-description">Model Certainty</div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            {% if error %}
+            <div class="error-panel fade-in">
+                <div class="error-content">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <div class="error-message">{{ error }}</div>
+                </div>
+            </div>
+            {% endif %}
+        </form>
+
+        <div class="disclaimer">
+            <div class="disclaimer-header">
+                <i class="fas fa-exclamation-triangle" style="color: #d97706;"></i>
+                <span class="disclaimer-title">Clinical Disclaimer</span>
+            </div>
+            <div class="disclaimer-content">
+                This AI diagnostic tool is intended for use by qualified medical professionals as a diagnostic aid only. 
+                Results should not replace clinical judgment or definitive diagnostic procedures. 
+                Always consult with radiologists and oncologists for comprehensive patient care.
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">Analyzing CT Scan</div>
+            <div class="loading-subtext">AI processing in progress...</div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

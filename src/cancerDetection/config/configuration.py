@@ -4,7 +4,8 @@ from cancerDetection.utils.common import read_yaml, create_directories
 from cancerDetection.entity.config_entity import (DataIngestionConfig,
                                                 DataSplitConfig,
                                                 PrepareBaseModelConfig,
-                                                TrainingConfig)
+                                                TrainingConfig,
+                                                EvaluationConfig)
 
 
 class ConfigurationManager:
@@ -95,3 +96,16 @@ class ConfigurationManager:
         )
 
         return training_config
+
+    def get_evaluation_config(self) -> EvaluationConfig: 
+        evaluation = self.config.evaluation
+
+        eval_config = EvaluationConfig(
+            path_of_model=Path(evaluation.model_path),
+            training_data=Path(evaluation.data_dir),
+            all_params=self.params,
+            params_image_size=self.params.IMAGE_SIZE,
+            params_batch_size=self.params.BATCH_SIZE
+        )
+
+        return eval_config

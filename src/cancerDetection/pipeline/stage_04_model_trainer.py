@@ -13,7 +13,7 @@ class ModelTrainingPipeline:
 
     def main(self):
         try:
-            # Your existing training code
+            # Existing training code
             config = ConfigurationManager()
             training_config = config.get_training_config()
             training = Training(config=training_config)

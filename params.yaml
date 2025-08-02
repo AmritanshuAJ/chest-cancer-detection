@@ -2,10 +2,10 @@ AUGMENTATION: True
 IMAGE_SIZE: [224, 224, 3]  # Standard for DenseNet121
 BATCH_SIZE: 32             # Reduced for small dataset
 INCLUDE_TOP: False         # Remove top layer for transfer learning
-EPOCHS: 100                 # More epochs with early stopping
+EPOCHS: 100                # More epochs with early stopping
 CLASSES: 4                 # Your 4 cancer classes
 WEIGHTS: imagenet          # Pre-trained weights
-LEARNING_RATE: 0.001       # Higher initial learning rate for Adam
+LEARNING_RATE: 0.01       # Higher initial learning rate for Adam
 
 # Fine-tuning specific parameters
 FINE_TUNE_EPOCHS: 20    # Additional epochs for fine-tuning
